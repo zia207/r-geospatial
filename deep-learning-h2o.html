@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>deep-learning-h2o.utf8</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Geospatial Data Science in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="getting-started-with-r.html">Getting Started with R</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Spatial Data Processing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about.html">Content</a>
+    </li>
+    <li>
+      <a href="read-write-spatial-data.html">Read and Write Spatial Data</a>
+    </li>
+    <li>
+      <a href="map-projection-coordinate-reference-systems.html">Map Projection and Coordinate Reference Systems</a>
+    </li>
+    <li>
+      <a href="geoprocessing-vector-data.html">Geoprocessing of Vector data</a>
+    </li>
+    <li>
+      <a href="working-with-spatial-point-data.html">Working with Spatial Point Data</a>
+    </li>
+    <li>
+      <a href="working-with-spatial-polygon.html">Working with Spatial Polygon Data</a>
+    </li>
+    <li>
+      <a href="working-with-raster-data.html">Working with Raster Data</a>
+    </li>
+    <li>
+      <a href="netCDF-data-processing.html">netCDF Data Processing</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Spatial Statistics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about-b.html">Content</a>
+    </li>
+    <li>
+      <a href="spatial-autocorrelation.html">Spatial Autocorrelation</a>
+    </li>
+    <li>
+      <a href="point-pattern-analysis.html">Point Pattern Analysis</a>
+    </li>
+    <li>
+      <a href="geographically-weighted-models.html">Geographically Weighted Model</a>
+    </li>
+    <li>
+      <a href="geographically-weighted-summary-statistics.html">Geographically Weighted Summary Statistics</a>
+    </li>
+    <li>
+      <a href="geographically-weighted-principal-components-analysis.html">Geographically Weighted Principal Components Analysis</a>
+    </li>
+    <li>
+      <a href="geographically-weighted-regression.html">Geographically Weighted Regression</a>
+    </li>
+    <li>
+      <a href="geographically-weighted-ols-regression.html">Geographically Weighted OLS Regression</a>
+    </li>
+    <li>
+      <a href="geographically-weighted-poisson-regression.html">Geographically Weighted Poisson Regression</a>
+    </li>
+    <li>
+      <a href="geographically-wighted-random-forest.html">Global and Local (geographically weighted) Random Forest</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Spatial Interpolation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about-d.html">Content</a>
+    </li>
+    <li>
+      <a href="deterministic-methods-for-spatial-interpolation.html">Deterministic Methods for Spatial Interpolation</a>
+    </li>
+    <li>
+      <a href="geostatistical-methods-for-spatial-interpolation.html">Geostatistical Methods for Spatial Interpolation</a>
+    </li>
+    <li>
+      <a href="semivariogram-modeling.html">Semivariogram Modeling</a>
+    </li>
+    <li>
+      <a href="kriging.html">Kriging</a>
+    </li>
+    <li>
+      <a href="ordinary-kriging.html">Ordinary Kriging</a>
+    </li>
+    <li>
+      <a href="universal-kriging.html">Universal Kriging</a>
+    </li>
+    <li>
+      <a href="cokriging.html">Co-Kriging</a>
+    </li>
+    <li>
+      <a href="regression-kriging.html">Regression kriging</a>
+    </li>
+    <li>
+      <a href="indicator-kriging.html">Indicator kriging</a>
+    </li>
+    <li>
+      <a href="assessing-quality-spatial-predictions.html">Assessing the Quality of Spatial Predictions</a>
+    </li>
+    <li>
+      <a href="cross-validation.html">Cross-validation</a>
+    </li>
+    <li>
+      <a href="validation-independent-dataset.html">Validation with an Independent Dataset</a>
+    </li>
+    <li>
+      <a href="conditional-simulation-spatial-uncertainty.html">Conditional Simulation for Spatial Uncertainty</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Remote Sensing
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="about-c.html">Content</a>
+    </li>
+    <li>
+      <a href="reomte-sensing-basic.html">Remote Sensing Basic</a>
+    </li>
+    <li>
+      <a href="landsat-8-image-processing.html">Landsat 8 Image Processing &amp; Visualization</a>
+    </li>
+    <li>
+      <a href="spectral-indices.html">Spectral Indices</a>
+    </li>
+    <li>
+      <a href="uav-ground-cover.html">Green Ground Cover from UAV Images</a>
+    </li>
+    <li>
+      <a href="texture-analysis.html">Texture Analysis</a>
+    </li>
+    <li>
+      <a href="image-classification.html">Image Classification</a>
+    </li>
+    <li>
+      <a href="ground-truth-data-processing.html">Ground Truth Data Processing</a>
+    </li>
+    <li>
+      <a href="unsupervised-classification.html">Unsupervised Classification</a>
+    </li>
+    <li>
+      <a href="supervised-classification.html">Supervised Classification</a>
+    </li>
+    <li>
+      <a href="random-forest.html">Random Forest</a>
+    </li>
+    <li>
+      <a href="support-vector-machine.html">Support Vector Machine</a>
+    </li>
+    <li>
+      <a href="naive-bayes.html">Naïve Bayes</a>
+    </li>
+    <li>
+      <a href="exboost.html">eXtreme Gradient Boosting</a>
+    </li>
+    <li>
+      <a href="deep-learning-h2o.html">Deep Learning with H20</a>
+    </li>
+    <li>
+      <a href="stack-ensemble-h2o.html">Stack-Ensemble-H20</a>
+    </li>
+    <li>
+      <a href="deep-learning-keras-tensorflow.html">Deep Learning with Keras-TensorFlow</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="mailto:zia207@gmail.com">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+    Email
+  </a>
+</li>
+<li>
+  <a href="http://github.com/zia207">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/zia-ahmed-a7653578">
+    <span class="fa fa-linkedin fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div style="margin-bottom:10px;">
+
+</div>
+<img src="Image/empty_banner.png" width="100%" style="display: block; margin: auto;" />
+<div style="margin-bottom:20px;">
+
+</div>
+<div style="margin-bottom:20px;">
+
+</div>
+<p><img src="Image/DNN_h2o.png" width="100%" style="display: block; margin: auto;" /></p>
+<div style="margin-bottom:30px;">
+
+</div>
+<div id="deep-neural-network---supervised-image-classification-in-h20-r" class="section level1">
+<h1>Deep Neural Network - Supervised Image Classification in H20 R</h1>
+<div style="margin-bottom:20px;">
+
+</div>
+<p><strong>Deep Neural Networks (or Deep Dearning)</strong> is based on a multi-layer, feed-forward artificial neural network that is trained with stochastic gradient descent using back-propagation. The network can contain many hidden layers consisting of neurons with activation functions. Advanced features such as adaptive learning rate, rate annealing, momentum training, dropout, L1 or L2 regularization, checkpointing, and grid search enable high predictive accuracy. Each computer node trains a copy of the global model parameters on its local data with multi-threading (asynchronously) and contributes periodically to the global model via model averaging across the network.</p>
+<p>In this tutorial will show how to implement a Deep Neural Network for pixel based supervised classification of Sentinel-2 multispectral images using the <a href="http://h2o-release.s3.amazonaws.com/h2o/rel-lambert/5/docs-website/Ruser/Rinstall.html">H20</a> package in R.</p>
+<p><a href="http://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html">H2O is an open source, in-memory, distributed, fast, and scalable machine learning and predictive analytics platform that allows you to build machine learning models on big data and provides easy productionalization of those models in an enterprise environment</a>. It’s core code is written in Java and can read data in parallel from a distributed cluster and also from local cluster. H2O allows access to all the capabilities of H2O from an external program or script via JSON over HTTP. The Rest API is used by H2O’s <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html">web interface (Flow UI)</a>, <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html">R binding (H2O-R)</a>, and <a href="http://docs.h2o.ai/h2o/latest-stable/h2o-docs/welcome.html">Python binding (H2O-Python)</a>. Requirement and installation steps in R can be found <a href="http://h2o-release.s3.amazonaws.com/h2o/rel-wheeler/2/index.html">here</a>.</p>
+<p>First, we will split the “point_data” into a training set (75% of the data), a validation set (12%) and a test set (13%) data. The validation data set will be used to optimize the model parameters during the training process. The model’s performance will be tested with the test data set. Finally, we will predict land use classes using a grid data set.</p>
+<div id="load-packages" class="section level4">
+<h4>Load packages</h4>
+<pre class="r"><code>library(rgdal)         # spatial data processing
+library(raster)        # raster processing
+library(plyr)          # data manipulation 
+library(dplyr)         # data manipulation 
+library(RStoolbox)     # plotting raster data 
+library(ggplot2)       # plotting 
+library(RColorBrewer)  # Color
+library(sp)            # Spatial data
+library(ggplot2)       # Plotting</code></pre>
+<div style="margin-bottom:20px;">
+
+</div>
+<p>The data could be available for download from <a href="https://www.dropbox.com/s/bupqmsfyr2tk1yg/Data_RS_DNN.7z?dl=0">here</a>.</p>
+<div style="margin-bottom:20px;">
+
+</div>
+<pre class="r"><code># Define data folder
+dataFolder&lt;-&quot;D:\\Dropbox\\Spatial Data Analysis and Processing in R\\DATA_RS_DNN\\&quot;</code></pre>
+</div>
+<div id="load-point-and-grid-data" class="section level4">
+<h4>Load point and grid data</h4>
+<pre class="r"><code>point&lt;-read.csv(paste0(dataFolder,&quot;.\\Sentinel_2\\point_data.csv&quot;), header = T)
+grid&lt;-read.csv(paste0(dataFolder,&quot;.\\Sentinel_2\\prediction_grid_data.csv&quot;), header = T)</code></pre>
+<div id="creat-data-frames" class="section level5">
+<h5>Creat data frames</h5>
+<pre class="r"><code>point.data&lt;-cbind(point[c(3:13)])
+grid.data&lt;-grid[c(4:13)]
+grid.xy&lt;-grid[c(3,1:2)]</code></pre>
+</div>
+</div>
+<div id="install-h2o" class="section level4">
+<h4>Install H2O</h4>
+<pre class="r"><code>#install.packages(&quot;h20&quot;)</code></pre>
+</div>
+<div id="start-and-initialize-h20-local-cluster" class="section level4">
+<h4>Start and Initialize H20 local cluster</h4>
+<pre class="r"><code>library(h2o)
+localH2o &lt;- h2o.init(nthreads = -1) </code></pre>
+</div>
+<div id="import-data-to-h2o-cluster" class="section level4">
+<h4>Import data to H2O cluster</h4>
+<pre class="r"><code>df&lt;-  as.h2o(point.data)
+grid&lt;- as.h2o(grid.data)</code></pre>
+</div>
+<div id="split-data-into-train-validation-and-test-dataset" class="section level4">
+<h4>Split data into train, validation and test dataset</h4>
+<pre class="r"><code>splits &lt;- h2o.splitFrame(df, c(0.75,0.125), seed=1234)
+train  &lt;- h2o.assign(splits[[1]], &quot;train.hex&quot;) # 75%
+valid  &lt;- h2o.assign(splits[[2]], &quot;valid.hex&quot;) # 12%
+test   &lt;- h2o.assign(splits[[3]], &quot;test.hex&quot;)  # 13%</code></pre>
+</div>
+<div id="create-response-and-features-data-sets" class="section level4">
+<h4>Create response and features data sets</h4>
+<pre class="r"><code>y &lt;- &quot;Class&quot;
+x &lt;- setdiff(names(train), y)</code></pre>
+<div style="margin-bottom:20px;">
+
+</div>
+</div>
+<div id="tuning-and-optimizations-parameters" class="section level2">
+<h2><strong>Tuning and Optimizations parameters:</strong></h2>
+<p>More details about the of Tuning and Optimization parameters of the H20 Deep Neural Network for supervised classification can be found <a href="http://docs.h2o.ai/h2o-tutorials/latest-stable/tutorials/deeplearning/index.html">here</a></p>
+<div id="grid-search-for-hyperprameters" class="section level3">
+<h3>Grid Search for hyperprameters</h3>
+<p>We can use the h2o.grid() function to perform a Random Grid Search (RGS). We could also test all possible combinations of parameters with Cartesian Grid or exhaustive search, but RGS is much faster when we have a large number of possible combinations and usually finds sufficiently accurate models.For RGS, we first define a set of hyper-parameters and search criteria to fine-tune our models. Because there are many hyper-parameters, each with a range of possible values, we want to find an (ideally) optimal combination to maximize our model’s accuracy.</p>
+<p><strong>Activation Functions</strong></p>
+<p><strong>Rectifier:</strong> is the default activation function. It is the fastest and most versatile option. It can lead to instability though and tends to be lower in accuracy. <strong>Tanh</strong>: The hyperbolic tangent is a scaled and shifted variant of the sigmoid activation function. It can take on values from -1 to 1 and centers around 0. Tanh needs more computational power than e.g. the Rectifier function. <strong>Maxout</strong>: is an activation function that is the max of the inputs. It is computationally quite demanding but can produce high accuracy models. ** …WithDropout:** When we specify with dropout, a random subset of the network is trained and the weights of all sub-networks are averaged. It works together with the parameter hidden_dropout_ratios, which controls the amount of layer neurons that are randomly dropped for each hidden layer. Hidden dropout ratios are useful for preventing overfitting on learned features.</p>
+<p><strong>Hidden layers</strong></p>
+<p>are the most important hyper-parameter to set for deep neural networks, as they specify how many hidden layers and how many nodes per hidden layer the model should learn</p>
+<p><strong>L1 and L2 penalties</strong></p>
+<p>L1: lets only strong weights survive L2: prevents any single weight from getting too big.</p>
+<p><strong>rho</strong> Adaptive learning rate time decay factor (similarity to prior updates). Defaults to 0.99. <strong>epsilon</strong> Adaptive learning rate smoothing factor (to avoid divisions by zero and allow progress). Defaults to 1e-08.</p>
+<p><strong>momentum_start</strong> Initial momentum at the beginning of training (try 0.5). Defaults to 0. <strong>momentum_stable</strong> Final momentum after the ramp is over (try 0.99). Defaults to 0. <strong>max_w2</strong> Constraint for squared sum of incoming weights per unit (e.g. for Rectifier). Defaults to 3.4028235e+38.</p>
+<pre class="r"><code>hyper_params &lt;- list(
+                     activation = c(&quot;Rectifier&quot;, &quot;Maxout&quot;, &quot;Tanh&quot;,
+                                    &quot;RectifierWithDropout&quot;, &quot;MaxoutWithDropout&quot;,
+                                    &quot;TanhWithDropout&quot;),                      
+                     hidden = list(c(5, 5, 5, 5, 5), c(10, 10, 10, 10), c(50, 50, 50), c(100, 100, 100)),
+                     epochs = c(50, 100, 200),
+                     l1 = c(0, 0.00001, 0.0001), 
+                     l2 = c(0, 0.00001, 0.0001),
+                     rate = c(0, 01, 0.005, 0.001),
+                     rate_annealing = c(1e-8, 1e-7, 1e-6),
+                     rho = c(0.9, 0.95, 0.99, 0.999),
+                     epsilon = c(1e-10, 1e-8, 1e-6, 1e-4),
+                     momentum_start = c(0, 0.5),
+                     momentum_stable = c(0.99, 0.5, 0),
+                     input_dropout_ratio = c(0, 0.1, 0.2),
+                     max_w2 = c(10, 100, 1000, 3.4028235e+38)
+                     )
+hyper_params</code></pre>
+<pre><code>## $activation
+## [1] &quot;Rectifier&quot;            &quot;Maxout&quot;               &quot;Tanh&quot;                
+## [4] &quot;RectifierWithDropout&quot; &quot;MaxoutWithDropout&quot;    &quot;TanhWithDropout&quot;     
+## 
+## $hidden
+## $hidden[[1]]
+## [1] 5 5 5 5 5
+## 
+## $hidden[[2]]
+## [1] 10 10 10 10
+## 
+## $hidden[[3]]
+## [1] 50 50 50
+## 
+## $hidden[[4]]
+## [1] 100 100 100
+## 
+## 
+## $epochs
+## [1]  50 100 200
+## 
+## $l1
+## [1] 0e+00 1e-05 1e-04
+## 
+## $l2
+## [1] 0e+00 1e-05 1e-04
+## 
+## $rate
+## [1] 0.000 1.000 0.005 0.001
+## 
+## $rate_annealing
+## [1] 1e-08 1e-07 1e-06
+## 
+## $rho
+## [1] 0.900 0.950 0.990 0.999
+## 
+## $epsilon
+## [1] 1e-10 1e-08 1e-06 1e-04
+## 
+## $momentum_start
+## [1] 0.0 0.5
+## 
+## $momentum_stable
+## [1] 0.99 0.50 0.00
+## 
+## $input_dropout_ratio
+## [1] 0.0 0.1 0.2
+## 
+## $max_w2
+## [1] 1.000000e+01 1.000000e+02 1.000000e+03 3.402823e+38</code></pre>
+</div>
+<div id="early-stopping-criteria" class="section level3">
+<h3>Early stopping criteria</h3>
+<p><strong>stopping_metric:</strong> metric that we want to use as stopping criterion <strong>stopping_tolerance and stopping_rounds</strong>: training stops when the the stopping metric does not improve by the stopping tolerance proportion any more (e.g. by 0.05 or 5%) for the number of consecutive rounds defined by stopping rounds.</p>
+<pre class="r"><code>search_criteria &lt;- list(strategy = &quot;RandomDiscrete&quot;, 
+                        max_models = 200,
+                        max_runtime_secs = 900,
+                        stopping_tolerance = 0.001,
+                        stopping_rounds = 2,
+                        seed = 1345767)</code></pre>
+<p>Now, we can train the model with combinations of hyper-parameters from our specified stopping criteria and hyper-parameter grid.</p>
+<pre class="r"><code>DNN_grid &lt;- h2o.grid(
+                  algorithm=&quot;deeplearning&quot;,
+                  grid_id = &quot;DNN_grid_ID&quot;,
+                  x= x,
+                  y = y,
+                  training_frame = train,
+                  validation_frame =valid,  
+                  stopping_metric = &quot;logloss&quot;,
+                  nfolds=10,
+                  hyper_params = hyper_params,
+                  search_criteria = search_criteria,
+                  seed = 42)</code></pre>
+<div id="grid-parameters" class="section level4">
+<h4>Grid parameters</h4>
+<pre class="r"><code>grid.dnn &lt;- h2o.getGrid(&quot;DNN_grid_ID&quot;,sort_by=&quot;RMSE&quot;,decreasing=FALSE)</code></pre>
+<pre class="r"><code>grid.dnn@summary_table[1,]</code></pre>
+<pre><code>## Hyper-Parameter Search Summary: ordered by increasing RMSE
+##   activation            epochs epsilon          hidden input_dropout_ratio
+## 1  Rectifier 49.91064448589369  1.0E-6 [100, 100, 100]                 0.1
+##       l1     l2       max_w2 momentum_stable momentum_start  rate
+## 1 1.0E-5 1.0E-4 3.4028235E38             0.5            0.5 0.001
+##   rate_annealing   rho           model_ids               rmse
+## 1         1.0E-8 0.999 DNN_grid_ID_model_2 0.4665611714169148</code></pre>
+</div>
+</div>
+<div id="the-best-model" class="section level3">
+<h3>The Best Model</h3>
+<pre class="r"><code>best_model &lt;- h2o.getModel(grid.dnn@model_ids[[1]]) ## model with lowest logloss
+best_model</code></pre>
+<pre><code>## Model Details:
+## ==============
+## 
+## H2OMultinomialModel: deeplearning
+## Model ID:  DNN_grid_ID_model_2 
+## Status of Neuron Layers: predicting Class, 5-class classification, multinomial distribution, CrossEntropy loss, 21,805 weights/biases, 264.3 KB, 990,047 training samples, mini-batch size 1
+##   layer units      type dropout       l1       l2 mean_rate rate_rms
+## 1     1    10     Input 10.00 %       NA       NA        NA       NA
+## 2     2   100 Rectifier  0.00 % 0.000010 0.000100  0.326439 0.378340
+## 3     3   100 Rectifier  0.00 % 0.000010 0.000100  0.094478 0.125418
+## 4     4   100 Rectifier  0.00 % 0.000010 0.000100  0.113505 0.188188
+## 5     5     5   Softmax      NA 0.000010 0.000100  0.310977 0.371920
+##   momentum mean_weight weight_rms mean_bias bias_rms
+## 1       NA          NA         NA        NA       NA
+## 2 0.000000    0.018042   0.812464 -0.522467 0.717334
+## 3 0.000000   -0.145769   0.334543 -0.111294 1.012745
+## 4 0.000000   -0.073061   0.218634 -0.233580 0.634223
+## 5 0.000000   -0.161464   0.465983 -0.155617 0.847374
+## 
+## 
+## H2OMultinomialMetrics: deeplearning
+## ** Reported on training data. **
+## ** Metrics reported on temporary training frame with 10047 samples **
+## 
+## Training Set Metrics: 
+## =====================
+## 
+## MSE: (Extract with `h2o.mse`) 0.1621272
+## RMSE: (Extract with `h2o.rmse`) 0.4026502
+## Logloss: (Extract with `h2o.logloss`) 1.151394
+## Mean Per-Class Error: 0.3265571
+## Confusion Matrix: Extract with `h2o.confusionMatrix(&lt;model&gt;,train = TRUE)`)
+## =========================================================================
+## Confusion Matrix: Row labels: Actual class; Column labels: Predicted class
+##         Class_1 Class_2 Class_3 Class_4 Class_5  Error             Rate
+## Class_1    1707      75     529       0       0 0.2614 =    604 / 2,311
+## Class_2     312    1370     225       0       0 0.2816 =    537 / 1,907
+## Class_3      11      86    3255      19       0 0.0344 =    116 / 3,371
+## Class_4       0       0     115    1960       0 0.0554 =    115 / 2,075
+## Class_5     372       0      11       0       0 1.0000 =      383 / 383
+## Totals     2402    1531    4135    1979       0 0.1747 = 1,755 / 10,047
+## 
+## Hit Ratio Table: Extract with `h2o.hit_ratio_table(&lt;model&gt;,train = TRUE)`
+## =======================================================================
+## Top-5 Hit Ratios: 
+##   k hit_ratio
+## 1 1  0.825321
+## 2 2  0.969344
+## 3 3  0.990345
+## 4 4  0.993232
+## 5 5  1.000000
+## 
+## 
+## H2OMultinomialMetrics: deeplearning
+## ** Reported on validation data. **
+## ** Metrics reported on full validation frame **
+## 
+## Validation Set Metrics: 
+## =====================
+## 
+## Extract validation frame with `h2o.getFrame(&quot;valid.hex&quot;)`
+## MSE: (Extract with `h2o.mse`) 0.1614175
+## RMSE: (Extract with `h2o.rmse`) 0.401768
+## Logloss: (Extract with `h2o.logloss`) 1.150984
+## Mean Per-Class Error: 0.3273979
+## Confusion Matrix: Extract with `h2o.confusionMatrix(&lt;model&gt;,valid = TRUE)`)
+## =========================================================================
+## Confusion Matrix: Row labels: Actual class; Column labels: Predicted class
+##         Class_1 Class_2 Class_3 Class_4 Class_5  Error          Rate
+## Class_1     487      23     150       0       0 0.2621 =   173 / 660
+## Class_2      83     395      66       0       0 0.2739 =   149 / 544
+## Class_3       6      32     958       7       0 0.0449 =  45 / 1,003
+## Class_4       0       0      34     572       0 0.0561 =    34 / 606
+## Class_5     110       0       1       0       0 1.0000 =   111 / 111
+## Totals      686     450    1209     579       0 0.1751 = 512 / 2,924
+## 
+## Hit Ratio Table: Extract with `h2o.hit_ratio_table(&lt;model&gt;,valid = TRUE)`
+## =======================================================================
+## Top-5 Hit Ratios: 
+##   k hit_ratio
+## 1 1  0.824897
+## 2 2  0.972298
+## 3 3  0.989398
+## 4 4  0.993502
+## 5 5  1.000000
+## 
+## 
+## H2OMultinomialMetrics: deeplearning
+## ** Reported on cross-validation data. **
+## ** 10-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+## 
+## Cross-Validation Set Metrics: 
+## =====================
+## 
+## Extract cross-validation frame with `h2o.getFrame(&quot;train.hex&quot;)`
+## MSE: (Extract with `h2o.mse`) 0.2176793
+## RMSE: (Extract with `h2o.rmse`) 0.4665612
+## Logloss: (Extract with `h2o.logloss`) 1.58871
+## Mean Per-Class Error: 0.1902602
+## Hit Ratio Table: Extract with `h2o.hit_ratio_table(&lt;model&gt;,xval = TRUE)`
+## =======================================================================
+## Top-5 Hit Ratios: 
+##   k hit_ratio
+## 1 1  0.755185
+## 2 2  0.908340
+## 3 3  0.963181
+## 4 4  0.989742
+## 5 5  1.000000
+## 
+## 
+## Cross-Validation Metrics Summary: 
+##                               mean          sd cv_1_valid cv_2_valid
+## accuracy                   0.74521  0.11108952  0.7968308  0.7977591
+## err                     0.25479004  0.11108952 0.20316921  0.2022409
+## err_count                    464.0   207.06207      359.0      361.0
+## logloss                  1.8840559   0.7867864  1.7892087  0.9503701
+## max_per_class_error     0.61453813  0.23412584  0.4262295 0.36881188
+## mean_per_class_accuracy 0.76378614 0.081231505  0.8116316  0.8073797
+## mean_per_class_error    0.23621386 0.081231505 0.18836837 0.19262029
+## mse                     0.23068552  0.10052046 0.18404047 0.16855569
+## r2                       0.8271054  0.07564617 0.86188275 0.87657934
+## rmse                    0.45683023  0.10486098  0.4289994 0.41055533
+##                         cv_3_valid cv_4_valid cv_5_valid cv_6_valid
+## accuracy                 0.5415318  0.5132361  0.8292411  0.8376162
+## err                     0.45846817 0.48676392 0.17075893 0.16238381
+## err_count                    850.0      901.0      306.0      297.0
+## logloss                  2.1801383   3.716771  1.9398918  1.2666479
+## max_per_class_error     0.87831515  0.8955696        1.0 0.47031963
+## mean_per_class_accuracy  0.6769504 0.65780306 0.67807394  0.8638553
+## mean_per_class_error     0.3230496  0.3421969 0.32192606  0.1361447
+## mse                     0.39675876 0.45254472 0.16529715 0.14711076
+## r2                      0.69589996  0.6634265 0.87665015   0.891306
+## rmse                     0.6298879  0.6727144  0.4065675  0.3835502
+##                         cv_7_valid cv_8_valid  cv_9_valid cv_10_valid
+## accuracy                0.49425915  0.7939394  0.89811105  0.94957507
+## err                      0.5057408  0.2060606 0.101888955  0.05042493
+## err_count                    925.0      374.0       178.0        89.0
+## logloss                  3.5184107  2.6699176   0.4420673  0.36713567
+## max_per_class_error     0.85126585        1.0  0.16842106 0.086448595
+## mean_per_class_accuracy  0.6306085  0.6424307   0.9138918  0.95523626
+## mean_per_class_error     0.3693915 0.35756928   0.0861082  0.04476375
+## mse                     0.46016648 0.19815332  0.08658148  0.04764634
+## r2                       0.6562404 0.84986204  0.93405646   0.9651506
+## rmse                    0.67835575 0.44514415  0.29424733  0.21828042</code></pre>
+<div id="the-best-parameters" class="section level4">
+<h4>The Best parameters</h4>
+<pre class="r"><code>best_params &lt;- best_model@allparameters</code></pre>
+</div>
+<div id="mean-error" class="section level4">
+<h4>Mean error</h4>
+<pre class="r"><code>h2o.mean_per_class_error(best_model, train = TRUE, valid = TRUE, xval = TRUE)</code></pre>
+<pre><code>##     train     valid      xval 
+## 0.3265571 0.3273979 0.1902602</code></pre>
+</div>
+<div id="scoring-history" class="section level4">
+<h4>Scoring history</h4>
+<pre class="r"><code>scoring_history&lt;-best_model@model$scoring_history
+#scoring_history
+#write.csv(scoring_history, &quot;scoring_history_model_02.csv&quot;)</code></pre>
+</div>
+<div id="plot-the-classification-error" class="section level4">
+<h4>Plot the classification error</h4>
+<pre class="r"><code>plot(best_model,
+     timestep = &quot;epochs&quot;,
+     metric = &quot;classification_error&quot;)</code></pre>
+<p><img src="deep-learning-h2o_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
+</div>
+<div id="plot-logloss" class="section level4">
+<h4>Plot logloss</h4>
+<pre class="r"><code>plot(best_model,
+     timestep = &quot;epochs&quot;,
+     metric = &quot;logloss&quot;)</code></pre>
+<p><img src="deep-learning-h2o_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
+</div>
+<div id="cross-validation-result" class="section level4">
+<h4>Cross validation result</h4>
+<pre class="r"><code>print(best_model@model$cross_validation_metrics_summary%&gt;%.[,c(1,2)])</code></pre>
+<pre><code>##                               mean          sd
+## accuracy                   0.74521  0.11108952
+## err                     0.25479004  0.11108952
+## err_count                    464.0   207.06207
+## logloss                  1.8840559   0.7867864
+## max_per_class_error     0.61453813  0.23412584
+## mean_per_class_accuracy 0.76378614 0.081231505
+## mean_per_class_error    0.23621386 0.081231505
+## mse                     0.23068552  0.10052046
+## r2                       0.8271054  0.07564617
+## rmse                    0.45683023  0.10486098</code></pre>
+<pre class="r"><code>#capture.output(print(dl_model@model$cross_validation_metrics_summary%&gt;%.[,c(1,2)]),file =  &quot;DL_CV_model_01.txt&quot;)</code></pre>
+</div>
+<div id="model-performance-with-test-data-set" class="section level4">
+<h4>Model performance with Test data set</h4>
+</div>
+<div id="compare-the-training-error-with-the-validation-and-test-set-errors" class="section level4">
+<h4>Compare the training error with the validation and test set errors</h4>
+<pre class="r"><code>h2o.performance(best_model, newdata=train)     ## full train data</code></pre>
+<pre><code>## H2OMultinomialMetrics: deeplearning
+## 
+## Test Set Metrics: 
+## =====================
+## 
+## MSE: (Extract with `h2o.mse`) 0.1624806
+## RMSE: (Extract with `h2o.rmse`) 0.4030888
+## Logloss: (Extract with `h2o.logloss`) 1.16049
+## Mean Per-Class Error: 0.3273881
+## Confusion Matrix: Extract with `h2o.confusionMatrix(&lt;model&gt;, &lt;data&gt;)`)
+## =========================================================================
+## Confusion Matrix: Row labels: Actual class; Column labels: Predicted class
+##         Class_1 Class_2 Class_3 Class_4 Class_5  Error             Rate
+## Class_1    3038     154     973       1       0 0.2708 =  1,128 / 4,166
+## Class_2     545    2384     391       0       0 0.2819 =    936 / 3,320
+## Class_3      15     150    5922      28       0 0.0316 =    193 / 6,115
+## Class_4       0       0     197    3542       0 0.0527 =    197 / 3,739
+## Class_5     678       0      16       0       0 1.0000 =      694 / 694
+## Totals     4276    2688    7499    3571       0 0.1746 = 3,148 / 18,034
+## 
+## Hit Ratio Table: Extract with `h2o.hit_ratio_table(&lt;model&gt;, &lt;data&gt;)`
+## =======================================================================
+## Top-5 Hit Ratios: 
+##   k hit_ratio
+## 1 1  0.825441
+## 2 2  0.968781
+## 3 3  0.989520
+## 4 4  0.993346
+## 5 5  1.000000</code></pre>
+<pre class="r"><code>h2o.performance(best_model, newdata=valid)     ## full validation data</code></pre>
+<pre><code>## H2OMultinomialMetrics: deeplearning
+## 
+## Test Set Metrics: 
+## =====================
+## 
+## MSE: (Extract with `h2o.mse`) 0.1614175
+## RMSE: (Extract with `h2o.rmse`) 0.401768
+## Logloss: (Extract with `h2o.logloss`) 1.150984
+## Mean Per-Class Error: 0.3273979
+## Confusion Matrix: Extract with `h2o.confusionMatrix(&lt;model&gt;, &lt;data&gt;)`)
+## =========================================================================
+## Confusion Matrix: Row labels: Actual class; Column labels: Predicted class
+##         Class_1 Class_2 Class_3 Class_4 Class_5  Error          Rate
+## Class_1     487      23     150       0       0 0.2621 =   173 / 660
+## Class_2      83     395      66       0       0 0.2739 =   149 / 544
+## Class_3       6      32     958       7       0 0.0449 =  45 / 1,003
+## Class_4       0       0      34     572       0 0.0561 =    34 / 606
+## Class_5     110       0       1       0       0 1.0000 =   111 / 111
+## Totals      686     450    1209     579       0 0.1751 = 512 / 2,924
+## 
+## Hit Ratio Table: Extract with `h2o.hit_ratio_table(&lt;model&gt;, &lt;data&gt;)`
+## =======================================================================
+## Top-5 Hit Ratios: 
+##   k hit_ratio
+## 1 1  0.824897
+## 2 2  0.972298
+## 3 3  0.989398
+## 4 4  0.993502
+## 5 5  1.000000</code></pre>
+<pre class="r"><code>h2o.performance(best_model, newdata=test)     ## full test data</code></pre>
+<pre><code>## H2OMultinomialMetrics: deeplearning
+## 
+## Test Set Metrics: 
+## =====================
+## 
+## MSE: (Extract with `h2o.mse`) 0.1735605
+## RMSE: (Extract with `h2o.rmse`) 0.4166059
+## Logloss: (Extract with `h2o.logloss`) 1.208293
+## Mean Per-Class Error: 0.337838
+## Confusion Matrix: Extract with `h2o.confusionMatrix(&lt;model&gt;, &lt;data&gt;)`)
+## =========================================================================
+## Confusion Matrix: Row labels: Actual class; Column labels: Predicted class
+##         Class_1 Class_2 Class_3 Class_4 Class_5  Error          Rate
+## Class_1     493      27     187       1       0 0.3037 =   215 / 708
+## Class_2     110     406      49       0       0 0.2814 =   159 / 565
+## Class_3       6      28     941       4       0 0.0388 =    38 / 979
+## Class_4       0       0      41     587       0 0.0653 =    41 / 628
+## Class_5     106       0       1       0       0 1.0000 =   107 / 107
+## Totals      715     461    1219     592       0 0.1875 = 560 / 2,987
+## 
+## Hit Ratio Table: Extract with `h2o.hit_ratio_table(&lt;model&gt;, &lt;data&gt;)`
+## =======================================================================
+## Top-5 Hit Ratios: 
+##   k hit_ratio
+## 1 1  0.812521
+## 2 2  0.968195
+## 3 3  0.987948
+## 4 4  0.992635
+## 5 5  1.000000</code></pre>
+<pre class="r"><code>#capture.output(print(h2o.performance(dl_model,test)),file =  &quot;test_data_model_01.txt&quot;)</code></pre>
+</div>
+<div id="confusion-matrix" class="section level4">
+<h4>Confusion matrix</h4>
+<pre class="r"><code>train.cf&lt;-h2o.confusionMatrix(best_model)
+print(train.cf)
+valid.cf&lt;-h2o.confusionMatrix(best_model,valid=TRUE)
+print(valid.cf)
+test.cf&lt;-h2o.confusionMatrix(best_model,test)
+print(test.cf)
+#write.csv(train.cf, &quot;CFM_train_model_01.csv&quot;)
+#write.csv(valid.cf, &quot;CFM_valid_model_01.csv&quot;)
+#write.csv(test.cf, &quot;CFM_test_moldel_01.csv&quot;)</code></pre>
+</div>
+<div id="grid-prediction" class="section level4">
+<h4>Grid Prediction</h4>
+<pre class="r"><code>g.predict = as.data.frame(h2o.predict(object = best_model, newdata = grid))</code></pre>
+</div>
+<div id="stop-h20-cluster" class="section level4">
+<h4>Stop h20 cluster</h4>
+<pre class="r"><code>h2o.shutdown(prompt=FALSE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="extract-prediction-class" class="section level4">
+<h4>Extract Prediction Class</h4>
+<pre class="r"><code># Extract predicted landuse class
+grid.xy$Class&lt;-g.predict$predict  
+# Import lnaduse ID file 
+ID&lt;-read.csv(paste0(dataFolder,&quot;.\\Sentinel_2\\Landuse_ID.csv&quot;), header=T)
+# Join landuse ID
+grid.new&lt;-join(grid.xy, ID, by=&quot;Class&quot;, type=&quot;inner&quot;) 
+# Omit missing values
+grid.new.na&lt;-na.omit(grid.new)                                                            </code></pre>
+</div>
+<div id="convert-to-raster-and-write" class="section level4">
+<h4>Convert to raster and write</h4>
+<pre class="r"><code>x&lt;-SpatialPointsDataFrame(as.data.frame(grid.new.na)[, c(&quot;x&quot;, &quot;y&quot;)], data = grid.new.na)
+r &lt;- rasterFromXYZ(as.data.frame(x)[, c(&quot;x&quot;, &quot;y&quot;, &quot;Class_ID&quot;)])</code></pre>
+</div>
+<div id="plot-map" class="section level4">
+<h4>Plot map</h4>
+<pre class="r"><code># Create color palette
+myPalette &lt;- colorRampPalette(c(&quot;light grey&quot;,&quot;burlywood4&quot;, &quot;forestgreen&quot;,&quot;light green&quot;, &quot;dodgerblue&quot;))
+# Plot Map
+LU&lt;-spplot(r,&quot;Class_ID&quot;, main=&quot;Supervised Image Classification: Deep Learning-H20&quot; , 
+      colorkey = list(space=&quot;right&quot;,tick.number=1,height=1, width=1.5,
+              labels = list(at = seq(1,4.8,length=5),cex=1.0,
+              lab = c(&quot;Road/parking/pavement&quot; ,&quot;Building&quot;, &quot;Tree/buses&quot;, &quot;Grass&quot;, &quot;Water&quot;))),
+              col.regions=myPalette,cut=4)
+LU</code></pre>
+<p><img src="deep-learning-h2o_files/figure-html/unnamed-chunk-30-1.png" width="624" style="display: block; margin: auto;" /></p>
+</div>
+<div id="write-raster" class="section level4">
+<h4>Write raster</h4>
+<pre class="r"><code># writeRaster(r, filename = paste0(dataFolder,&quot;.\\Sentinel_2\\DNN_H20_Landuse.tiff&quot;), &quot;GTiff&quot;, overwrite=T)</code></pre>
+<pre class="r"><code>rm(list = ls())</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
